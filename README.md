@@ -25,7 +25,7 @@ La API proporciona endpoints para realizar las siguientes operaciones:
 1.  Clona el repositorio:
 
     ```bash
-    git clone [https://github.com/Blazkull/api_financiera.git](https://github.com/Blazkull/api_financiera.git)
+    git clone [https://github.com/Blazkull/api\_financiera.git](https://github.com/Blazkull/api_financiera.git)
     cd api_financiera
     ```
 
