@@ -1,5 +1,5 @@
 import conection_mysql
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 @app.route('/api/dashboard', methods=['GET'])
@@ -17,43 +17,38 @@ def read():
                 return jsonify({'data_finanzas': user_data}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-@app.route('/api/dashboard/<int:Cedula>', methods=['GET'])
-def read_for_number_identification(Cedula):
+    
+@app.route('/api/users/dashboard/<int:cedula>', methods=['GET'])
+def get_user_dashboard(cedula):
     try:
-        print(f"Buscando usuario con cédula: {Cedula}") #logging
         connection = conection_mysql.conectar()
         with connection:
-            with connection.cursor() as cursor:
+            with connection.cursor() as cursor: 
                 sql = """
-                    SELECT u.Nombre, u.Saldo_disponible_inicial, d.TotalIngresos, d.TotalGastos, d.SaldoActual
-                    FROM usuarios u JOIN dashboard d ON u.UsuarioId = d.UsuarioId
-                    WHERE u.Cedula = %s;
+                    SELECT
+                        u.Nombre,
+                        d.TotalIngresos,
+                        d.TotalGastos,
+                        d.SaldoActual
+                    FROM
+                        usuarios u
+                    JOIN
+                        dashboard d ON u.UsuarioId = d.UsuarioId
+                    WHERE
+                        u.Cedula = %s
                 """
-        
-               
-                cursor.execute(sql, (Cedula,))
-                result = cursor.fetchone()
-                print(f"Resultado de la consulta: {result}") #logging
+                cursor.execute(sql, (cedula,))
+                row = cursor.fetchone()
 
-                if result:
-                    data = {
-                        'Nombre': result[0],
-                        'TotalIngresos': result[1],
-                        'TotalGastos': result[2],
-                        'SaldoActual': result[3]
-                    }
-                    return jsonify(data), 200
+                if row:
+                    # Convertir el resultado en un diccionario manualmente
+                    column_names = [desc[0] for desc in cursor.description]
+                    result = dict(zip(column_names, row))
+                    return jsonify({'data': result}), 200
                 else:
                     return jsonify({'message': 'Usuario no encontrado'}), 404
 
-    except TypeError:
-        return jsonify({'message': 'Usuario no encontrado'}), 404
-
     except Exception as e:
-        print(f"Error: {str(e)}") #logging
         return jsonify({'error': str(e)}), 500
-
-
 if __name__ == '__main__':
     app.run(debug=True)
