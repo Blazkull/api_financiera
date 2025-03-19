@@ -7,3 +7,7 @@
 #base de datos
 BD.txt
 conection_mysql.py
+
+
+#Cache
+__pycache__\conection_mysql.cpython-311.pyc
