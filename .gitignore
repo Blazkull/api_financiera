@@ -5,3 +5,8 @@
 
 #base de datos
 BD.txt
+.BD.txt
+conection_mysql.py
+.conection_mysql.py
+_pycache_
+._pycache_
