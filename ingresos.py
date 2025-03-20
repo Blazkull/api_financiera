@@ -1,5 +1,5 @@
-from flask import Flask,jsonify,request
 import conection_mysql
+from flask import Flask,jsonify,request
 
 app = Flask (__name__)
 
