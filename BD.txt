@@ -1,0 +1,83 @@
+CREATE DATABASE Finanzas_personales;
+USE Finanzas_personales;
+
+CREATE TABLE usuarios(
+	UsuarioId INT AUTO_INCREMENT PRIMARY KEY,
+	Nombre VARCHAR(30) COLLATE utf8mb4_bin NOT NULL,
+    Edad INT(10) NOT NULL,
+    Cedula  INT (20) UNIQUE ,
+    Telefono VARCHAR(20) UNIQUE COLLATE utf8mb4_bin NOT NULL,
+    Saldo_disponible_inicial DECIMAL(10,2),
+    AddedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Modified DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    Active BIT DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=1;
+
+CREATE TABLE ingresos(
+	IngresosId INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Concepto varchar (20)COLLATE utf8mb4_bin NOT NULL,
+    Monto DECIMAL(10,2),
+    Metodo_ingreso  VARCHAR(30) COLLATE utf8mb4_bin NOT NULL,
+    Cuenta_ingreso BIGINT NOT NULL,
+	Descripcion VARCHAR (50) COLLATE utf8mb4_bin NOT NULL,
+    UserId INT,
+    AddedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Modified DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    Active BIT DEFAULT 1,
+    FOREIGN KEY (UserId) REFERENCES usuarios(UsuarioId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=1;
+
+CREATE TABLE gastos(
+	GastosId INT AUTO_INCREMENT PRIMARY KEY,
+    Fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Concepto varchar (20)COLLATE utf8mb4_bin NOT NULL,
+    Monto DECIMAL(10,2),
+    Metodo_pago  VARCHAR(30) COLLATE utf8mb4_bin NOT NULL,
+    Cuenta_retiro BIGINT NOT NULL,
+	Descripcion VARCHAR (50) COLLATE utf8mb4_bin NOT NULL,
+    UserId INT,
+    AddedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Modified DATETIME  DEFAULT CURRENT_TIMESTAMP,
+    Active BIT DEFAULT 1,
+    FOREIGN KEY (UserId) REFERENCES usuarios(UsuarioId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=1;
+
+CREATE TABLE dashboard (
+    DashboardId INT AUTO_INCREMENT PRIMARY KEY,
+    UsuarioId INT,
+    TotalIngresos DECIMAL(15, 2) DEFAULT 0.00,
+    TotalGastos DECIMAL(15, 2) DEFAULT 0.00,
+    SaldoActual DECIMAL(15,2) DEFAULT 0.00,
+    AddedOn DATETIME DEFAULT CURRENT_TIMESTAMP,
+    Modified DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (UsuarioId) REFERENCES usuarios(UsuarioId)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+
+
+select *from usuarios;
+ALTER TABLE ingresos MODIFY Cuenta_ingreso BIGINT;
+ALTER TABLE gastos MODIFY Cuenta_retiro BIGINT;
+-- DATOS DE EJEMPLO 
+
+-- Insertar datos en la tabla usuarios
+INSERT INTO usuarios (Nombre, Edad, Cedula, Telefono, Saldo_disponible_inicial) VALUES
+('Ana García', 30, 123456789, '555-1234', 1000.00),
+('Carlos Pérez', 25, 987654321, '555-5678', 500.00),
+('Laura Rodríguez', 35, 112233445, '555-9012', 1500.00);
+
+-- Insertar datos en la tabla ingresos
+INSERT INTO ingresos (Concepto, Monto, Metodo_ingreso, Cuenta_ingreso, Descripcion, UserId) VALUES
+('Salario', 1200.00, 'Transferencia', 1234567890, 'Salario mensual', 1),
+('Venta Online', 300.00, 'Tarjeta de crédito', 9876543210, 'Venta de producto A', 2),
+('Freelance', 500.00, 'Transferencia', 1122334455, 'Proyecto web', 3),
+('Devolución', 100.00, 'Efectivo', 1234567890, 'Devolución de compra', 1);
+
+-- Insertar datos en la tabla gastos
+INSERT INTO gastos (Concepto, Monto, Metodo_pago, Cuenta_retiro, Descripcion, UserId) VALUES
+('Supermercado', 200.00, 'Tarjeta de débito', 1234567890, 'Compra semanal', 1),
+('Restaurante', 50.00, 'Efectivo', 9876543210, 'Cena con amigos', 2),
+('Gasolina', 80.00, 'Tarjeta de crédito', 1122334455, 'Combustible', 3),
+('Ropa', 150.00, 'Tarjeta de débito', 1234567890, 'Compra de ropa', 1);
+
+SELECT *from dashboard;
