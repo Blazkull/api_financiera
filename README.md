@@ -24,23 +24,23 @@ La API proporciona endpoints para realizar las siguientes operaciones:
 
 1.  Clona el repositorio:
 
-    \`\`\`bash
-    git clone [https://github.com/Blazkull/api\_financiera.git](https://github.com/Blazkull/api_financiera.git)
-    cd api\_financiera
-    \`\`\`
+    ```bash
+    git clone https://github.com/Blazkull/api_financiera.git
+    cd api_financiera
+    ```
 
 2.  Crea un entorno virtual (recomendado):
 
-    \`\`\`bash
+    ```bash
     python -m venv .\local
     local\\Scripts\\activate
-    \`\`\`
+    ```
 
 3.  Instala las dependencias:
 
-    \`\`\`bash
+    ```bash
     pip install -r requirements.txt
-    \`\`\`
+     ```
 
 ## Configuración
 
@@ -50,9 +50,9 @@ La API utiliza una base de datos SQLite por defecto. Si deseas utilizar otra bas
 
 Para ejecutar la API, utiliza el siguiente comando:
 
-\`\`\`bash
+```bash
 uvicorn main:app --reload
-\`\`\`
+ ```
 
 La API estará disponible en `http://127.0.0.1:8000`.
 

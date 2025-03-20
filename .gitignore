@@ -1,17 +1,10 @@
 # CARPETA DE ENTERNO VIRTUAL
 .\local
+\local
 .gitattributes
-
-
-#base de datos
 BD.txt
 .BD.txt
 conection_mysql.py
 .conection_mysql.py
 _pycache_
-._pycache_
-conection_mysql.py
-__pycache__/conection_mysql.cpython-313.pyc
-conection_mysql.py
-conection_mysql.py
-conection_mysql.py
+
