@@ -28,16 +28,31 @@ def read():
 
 def create():
     
-    data = request.get_json()
-    if not data or 'email' not in data or 'password' not in data:
-        return jsonify({'error': 'Invalid request data'}), 400
 
     try:
+        
+        data = request.get_json()
+        if not data or 'fecha' not in data or 'concepto' not in data or 'monto' not in data or 'metodo_ingreso' not in data or 'cuenta_ingreso' not in data or 'descripcion' not in data:
+            return jsonify({'error': 'Datos invalidos'}), 400
+
+        connection = conection_mysql.conectar()
+        if connection is None:
+            return jsonify({'error': 'No se pudo conectar a la base de datos'}), 500
+        with connection:
+            with connection.cursor() as cursor:
+                # Obtener UsuarioId por cédula
+                sql_select = "SELECT IngresosId FROM ingresos WHERE IngresosId = %s"
+                cursor.execute(sql_select)
+                result = cursor.fetchone()
+
+                if result:
+                    usuario_id = result['UsuarioId']
+
         connection = conection_mysql.conectar()
         with connection:
             with connection.cursor() as cursor:
-                sql= "INSERT IN TO ingresos (Concepto,Monto,Metodo_ingreso,cuenta_ingreso,Descripcion) SET VALUES(%s, %s, %s, %s,%s, %s);"
-                cursor.execute(sql, (data['Concepto'], data['Monto'], data['Metodo_ingreso'], data['cuenta_ingreso'], data['Descripcion']))
+                sql_insert= "INSERT IN TO ingresos (Concepto,Monto,Metodo_ingreso,cuenta_ingreso,Descripcion) SET VALUES(%s, %s, %s, %s,%s, %s);"
+                cursor.execute(sql_insert, (data['Concepto'], data['Monto'], data['Metodo_ingreso'], data['cuenta_ingreso'], data['Descripcion']))
                 connection.commit()
         return jsonify({'message': 'Successful creation'}), 201
 
