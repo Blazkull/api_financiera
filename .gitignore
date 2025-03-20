@@ -2,8 +2,9 @@
 .\local
 \local
 .gitattributes
-
-
-#base de datos
-conection_sql
+BD.txt
+.BD.txt
+conection_mysql.py
+.conection_mysql.py
 _pycache_
+
