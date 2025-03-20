@@ -2,9 +2,17 @@
 .\local
 \local
 .gitattributes
+BD.txt
+.BD.txt
+conection_mysql.py
+.conection_mysql.py
+_pycache_
 
+<<<<<<< HEAD
 
 #base de datos
 conection_sql
 _pycache_
 __pycache__/conection_mysql.cpython-313.pyc
+=======
+>>>>>>> 14befd8006d83b222f6a8c1dda4d36d5c235c108
