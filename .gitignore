@@ -7,3 +7,4 @@
 #base de datos
 conection_sql
 _pycache_
+__pycache__/conection_mysql.cpython-313.pyc
