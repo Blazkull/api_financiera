@@ -28,6 +28,7 @@ def read():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+#Solicitar los datos de dashboard por numero de cedula
 @app.route('/api/dashboard/<int:cedula>', methods=['GET'])
 def get_user_dashboard(cedula):
     try:
