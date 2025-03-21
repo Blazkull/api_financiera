@@ -3,7 +3,8 @@ from conection_mysql import conectar
 
 app = Flask(__name__)
 
-@app.route('/')
+
+@app.route("/api/gastos")
 def get_gasto():
     try:
         with conectar() as connection:
@@ -23,7 +24,7 @@ def get_gasto():
                         "monto": g["monto"],
                         "metodo_pago": g["metodo_pago"],
                         "Cuenta_retiro": g["Cuenta_retiro"],
-                        "descripcion": g["descripcion"]
+                        "descripcion": g["descripcion"],
                     }
                     for g in gastos
                 ]
@@ -32,29 +33,32 @@ def get_gasto():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Creación de rutas 
 
-@app.route("/add", methods=["POST"])
+@app.route("/api/add", methods=["POST"])
 def add_gasto():
     try:
         data = request.get_json()
         with conectar() as connection:
             with connection.cursor() as cursor:
                 sql = "INSERT INTO gastos (fecha, concepto, monto, metodo_pago, Cuenta_retiro, descripcion) VALUES (%s, %s, %s, %s, %s, %s)"
-                cursor.execute(sql, (
-                    data["fecha"],
-                    data["concepto"],
-                    data["monto"],
-                    data["metodo_pago"],
-                    data["Cuenta_retiro"],
-                    data["descripcion"]
-                ))
+                cursor.execute(
+                    sql,
+                    (
+                        data["fecha"],
+                        data["concepto"],
+                        data["monto"],
+                        data["metodo_pago"],
+                        data["Cuenta_retiro"],
+                        data["descripcion"],
+                    ),
+                )
             connection.commit()
         return jsonify({"message": "Gasto agregado correctamente"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route("/delete/<int:id>", methods=["DELETE"])
+
+@app.route("/api/delete/<int:id>", methods=["DELETE"])
 def delete_gasto(id):
     try:
         with conectar() as connection:
@@ -66,7 +70,8 @@ def delete_gasto(id):
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route("/update/<int:id>", methods=["PUT"])
+
+@app.route("/api/update/<int:id>", methods=["PUT"])
 def update_gasto(id):
     try:
         data = request.get_json()
@@ -75,21 +80,25 @@ def update_gasto(id):
                 sql = """UPDATE gastos 
                          SET fecha=%s, concepto=%s, monto=%s, metodo_pago=%s, Cuenta_retiro=%s, descripcion=%s 
                          WHERE GastosId=%s"""
-                cursor.execute(sql, (
-                    data["fecha"],
-                    data["concepto"],
-                    data["monto"],
-                    data["metodo_pago"],
-                    data["Cuenta_retiro"],
-                    data["descripcion"],
-                    id
-                ))
+                cursor.execute(
+                    sql,
+                    (
+                        data["fecha"],
+                        data["concepto"],
+                        data["monto"],
+                        data["metodo_pago"],
+                        data["Cuenta_retiro"],
+                        data["descripcion"],
+                        id,
+                    ),
+                )
             connection.commit()
         return jsonify({"message": "Gasto actualizado correctamente"})
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route("/gasto/<int:id>", methods=["GET"])
+
+@app.route("/api/gasto/<int:id>", methods=["GET"])
 def get_gasto(id):
     try:
         with conectar() as connection:
@@ -97,7 +106,7 @@ def get_gasto(id):
                 sql = "SELECT * FROM gastos WHERE GastosId = %s"
                 cursor.execute(sql, (id,))
                 gasto = cursor.fetchone()
-                
+
                 if gasto:
                     gasto_dict = {
                         "GastosId": gasto["GastosId"],
@@ -106,13 +115,14 @@ def get_gasto(id):
                         "monto": gasto["monto"],
                         "metodo_pago": gasto["metodo_pago"],
                         "Cuenta_retiro": gasto["Cuenta_retiro"],
-                        "descripcion": gasto["descripcion"]
+                        "descripcion": gasto["descripcion"],
                     }
                     return jsonify(gasto_dict)
-                
+
                 return jsonify({"error": "Gasto no encontrado"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
