@@ -35,8 +35,8 @@ def get_all_data_users():
      return dashboard.get_all_data_users()
 
 @app.route('/api/user/dashboard/<int:cedula>', methods=['GET'])
-def get_one_user_dashboard(cedula):
-     return dashboard.get_one_user_dashboard(cedula)
+def get_one_user_dashboard(Cedula):
+     return dashboard.get_one_user_dashboard(Cedula)
 
   
 #RUTAS DE INGRESOS
@@ -75,7 +75,7 @@ def update_gasto(GastosId):
 
 @app.route('/api/delete/gastos/<int:GastosId>', methods=['DELETE'])
 def delete_gasto(GastosId):
-    return gastos.delete_gasto()
+    return gastos.delete_gasto(GastosId)
 
 @app.route('/api/gastos/cedula/<int:cedula>', methods=['GET'])
 def get_gastos_by_cedula(cedula)
