@@ -78,7 +78,7 @@ def delete_gasto(GastosId):
     return gastos.delete_gasto(GastosId)
 
 @app.route('/api/gastos/cedula/<int:cedula>', methods=['GET'])
-def get_gastos_by_cedula(cedula)
+def get_gastos_by_cedula(cedula):
     return gastos.get_gastos_by_cedula(cedula)
 
 @app.route("/api/delete/gastos/cedula/<int:cedula>/gasto/<int:gasto_id>", methods=["DELETE"])
