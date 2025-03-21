@@ -7,6 +7,7 @@ app = Flask(__name__)
 
 
 #RUTAS DE USUARIOS
+#RUTAS DE USUARIOS
 @app.route('/api/users', methods=['GET'])
 def get_all_users():
      return usuarios.get_all_users()
@@ -22,12 +23,11 @@ def create_user():
 
 @app.route('/api/update/users/<int:Cedula>', methods=['PUT'])
 def update_user(Cedula):
-     return usuarios.update_user()
+     return usuarios.update_user(Cedula)
 
 @app.route('/api/delete/user/<int:Cedula>', methods=['DELETE'])
 def delete_user(Cedula):
-     return usuarios.delete_user
-
+     return usuarios.delete_user(Cedula)
 
 #RUTAS DE DASHBOARD
 @app.route('/api/users/dashboard', methods=['GET'])
