@@ -59,12 +59,12 @@ def add_gasto():
 
 
 @app.route("/api/delete/<int:GastosId>", methods=["DELETE"])
-def delete_gasto(id):
+def delete_gasto(GastosId):
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
                 sql = "DELETE FROM gastos WHERE GastosId = %s"
-                cursor.execute(sql, (id,))
+                cursor.execute(sql, (GastosId,))
             connection.commit()
         return jsonify({"message": "Gasto eliminado correctamente"})
     except Exception as e:
@@ -72,7 +72,7 @@ def delete_gasto(id):
 
 
 @app.route("/api/update/<int:GastosId>", methods=["PUT"])
-def update_gasto(id):
+def update_gasto(GastosId):
     try:
         data = request.get_json()
         with conectar() as connection:
@@ -89,7 +89,7 @@ def update_gasto(id):
                         data["metodo_pago"],
                         data["Cuenta_retiro"],
                         data["descripcion"],
-                        id,
+                        ,
                     ),
                 )
             connection.commit()
@@ -98,13 +98,13 @@ def update_gasto(id):
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/api/gasto/<int:GastosId>", methods=["GET"])
-def get_gasto_id(id):
+@app.route("/api/gasto/<int:Gastos>", methods=["GET"])
+def get_gasto_id(GastosId):
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
                 sql = "SELECT * FROM gastos WHERE GastosId = %s"
-                cursor.execute(sql, (id,))
+                cursor.execute(sql, (GastosId,))
                 gasto = cursor.fetchone()
 
                 if gasto:
