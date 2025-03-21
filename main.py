@@ -1,10 +1,10 @@
-## aqui va todo el llamado a cada una de la funciones de los codigos
 
-
-from flask import Flask,jsonify
-import usuarios,ingresos,dashboard,gastos
+from flask import Flask, jsonify
+import usuarios, ingresos, dashboard, gastos
 
 app = Flask(__name__)
+
+
 
 #RUTAS DE USUARIOS
 @app.route('/api/users', methods=['GET'])
@@ -38,8 +38,8 @@ def get_all_data_users():
 def get_one_user_dashboard(cedula):
      return dashboard.get_one_user_dashboard(cedula)
 
+  
 #RUTAS DE INGRESOS
-
 @app.route('/api/ingresos', methods=['GET'])
 def get_all_ingresos():
      return ingresos.get_all_ingresos()
@@ -61,6 +61,29 @@ def delete_insert_of_user(IngresosId):
 
 
 #RUTAS DE GASTOS
+@app.route('/api/gastos', methods=['GET'])
+def get_gasto():
+    return gastos.get_gasto()
+
+@app.route('/api/create/gastos', methods=['POST'])
+def add_gasto():
+    return gastos.add_gasto()
+
+@app.route('/api/update/gastos/<int:GastosId>', methods=['PUT'])
+def update_gasto(GastosId):
+    return gastos.update_gasto()
+
+@app.route('/api/delete/gastos/<int:GastosId>', methods=['DELETE'])
+def delete_gasto(GastosId):
+    return gastos.delete_gasto()
+
+@app.route('/api/gastos/cedula/<int:cedula>', methods=['GET'])
+def get_gastos_by_cedula(cedula)
+    return gastos.get_gastos_by_cedula(cedula)
+
+@app.route("/api/delete/gastos/cedula/<int:cedula>/gasto/<int:gasto_id>", methods=["DELETE"])
+def delete_specific_gasto_by_cedula(cedula, gasto_id):
+    return gastos.delete_specific_gasto_by_cedula(cedula, gasto_id):
 
 
 
