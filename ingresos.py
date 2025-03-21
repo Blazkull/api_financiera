@@ -4,8 +4,8 @@ import conection_mysql
 app = Flask(__name__)
 
 # Método GET: Obtener todos los ingresos
-@app.route('/api/ingresos', methods=['GET'])
-def read():
+
+def Obtener_ingresos():
     try:
         connection = conection_mysql.conectar()
         with connection:
