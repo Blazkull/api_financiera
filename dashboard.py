@@ -3,8 +3,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/api/dashboard', methods=['GET'])
-def read():
+def get_all_data_users():
     try:
         connection = conection_mysql.conectar()
         if connection is None:
@@ -29,8 +28,8 @@ def read():
         return jsonify({'error': str(e)}), 500
 
 #Solicitar los datos de dashboard por numero de cedula
-@app.route('/api/dashboard/<int:cedula>', methods=['GET'])
-def get_user_dashboard(cedula):
+
+def get_one_user_dashboard(cedula):
     try:
         connection = conection_mysql.conectar()
         if connection is None:

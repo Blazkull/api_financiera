@@ -6,6 +6,7 @@ import usuarios,ingresos,dashboard,gastos
 
 app = Flask(__name__)
 
+#RUTAS DE USUARIOS
 @app.route('/api/users', methods=['GET'])
 def get_all_users():
      return usuarios.get_all_users()
@@ -26,6 +27,27 @@ def update_user(Cedula):
 @app.route('/api/users/<int:Cedula>', methods=['DELETE'])
 def delete_user(Cedula):
      return usuarios.delete_user
+
+
+#RUTAS DE DASHBOARD
+@app.route('/api/users/dashboard', methods=['GET'])
+def get_all_data_users():
+     return dashboard.get_all_data_users()
+
+@app.route('/api/dashboard/<int:cedula>', methods=['GET'])
+def get_one_user_dashboard(cedula):
+     return dashboard.get_one_user_dashboard(cedula)
+
+#RUTAS DE INGRESOS
+
+
+
+
+
+
+#RUTAS DE GASTOS
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
