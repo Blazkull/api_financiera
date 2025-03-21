@@ -1,7 +1,7 @@
 # API Financiera
-
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Warp](https://img.shields.io/badge/Warp-Terminal-black.svg)](https://warp.dev/)
+
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-IDE-blue.svg)](https://code.visualstudio.com/)
 [![Postman](https://img.shields.io/badge/Postman-API%20Client-orange.svg)](https://www.postman.com/)
 
@@ -62,6 +62,22 @@ Si deseas probar localmente, debes crear una base de datos con los parámetros q
 La API utiliza MySQL Workbench como base de datos. Para configurarla, modifica la URL de conexión en `database.py`.
 
 Si deseas probar localmente, debes crear una base de datos con los parámetros indicados en el archivo [`bd.txt`](https://github.com/Blazkull/api_financiera/blob/main/bd.txt), que contiene la configuración necesaria para establecer la conexión.
+
+Además, debes crear un archivo llamado `conection_mysql.py` con el siguiente contenido:
+
+```python
+import pymysql.cursors
+
+def conectar():
+    connection = pymysql.connect(
+        host='localhost', # conexión al servidor de recurso
+        user='root', # usuario de conexión a MySQL
+        password='1234', # clave de la conexión a MySQL
+        database='python', # nombre de la base de datos
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    return connection
+```
 
 ## Ejecución
 
