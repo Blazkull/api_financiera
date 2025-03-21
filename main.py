@@ -71,7 +71,7 @@ def add_gasto():
 
 @app.route('/api/update/gastos/<int:GastosId>', methods=['PUT'])
 def update_gasto(GastosId):
-    return gastos.update_gasto()
+    return gastos.update_gasto(GastosId)
 
 @app.route('/api/delete/gastos/<int:GastosId>', methods=['DELETE'])
 def delete_gasto(GastosId):
