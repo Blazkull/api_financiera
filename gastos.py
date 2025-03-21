@@ -4,7 +4,7 @@ from conection_mysql import conectar
 app = Flask(__name__)
 
 @app.route('/')
-def index():
+def get_gasto():
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
