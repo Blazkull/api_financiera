@@ -78,7 +78,7 @@ def update_gasto(GastosId):
         return jsonify({"error": str(e)}), 400
 
 @app.route('/api/gastos/cedula/<int:cedula>', methods=['GET'])
-def get_gastos_by_cedula(cedula):
+def get_gastos_by_cedula(Cedula):
     try:
         with conectar() as connection:
             with connection.cursor(pymysql.cursors.DictCursor) as cursor:
@@ -89,7 +89,7 @@ def get_gastos_by_cedula(cedula):
                 JOIN usuarios u ON g.UserId = u.UsuarioId
                 WHERE u.Cedula = %s
                 """
-                cursor.execute(sql, (cedula,))
+                cursor.execute(sql, (Cedula,))
                 gastos = cursor.fetchall()
 
                 if not gastos:
@@ -100,12 +100,12 @@ def get_gastos_by_cedula(cedula):
         return jsonify({"error": str(e)}), 500
 
 @app.route('/api/gastos/cedula/<int:cedula>/gasto/<int:gasto_id>', methods=['DELETE'])
-def delete_specific_gasto_by_cedula(cedula, gasto_id):
+def delete_specific_gasto_by_cedula(Cedula, GastoId):
     try:
         with conectar() as connection:
             with connection.cursor(pymysql.cursors.DictCursor) as cursor:
                 # Verificar si el usuario con esa cédula existe
-                cursor.execute("SELECT UsuarioId FROM usuarios WHERE Cedula = %s", (cedula,))
+                cursor.execute("SELECT UsuarioId FROM usuarios WHERE Cedula = %s", (Cedula,))
                 usuario = cursor.fetchone()
 
                 if not usuario:
@@ -114,14 +114,14 @@ def delete_specific_gasto_by_cedula(cedula, gasto_id):
                 usuario_id = usuario["UsuarioId"]
 
                 # Verificar si el gasto pertenece al usuario
-                cursor.execute("SELECT * FROM gastos WHERE GastosId = %s AND UserId = %s", (gasto_id, usuario_id))
+                cursor.execute("SELECT * FROM gastos WHERE GastosId = %s AND UserId = %s", (GastoId, usuario_id))
                 gasto = cursor.fetchone()
 
                 if not gasto:
                     return jsonify({"message": "No se encontró un gasto con ese ID para esta cédula"}), 404
 
                 # Eliminar el gasto específico
-                cursor.execute("DELETE FROM gastos WHERE GastosId = %s", (gasto_id,))
+                cursor.execute("DELETE FROM gastos WHERE GastosId = %s", (GastoId,))
                 connection.commit()
 
                 return jsonify({"message": "El gasto ha sido eliminado exitosamente"}), 200
