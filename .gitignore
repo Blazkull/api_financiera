@@ -8,8 +8,16 @@ conection_mysql.py
 .conection_mysql.py
 _pycache_
 
+
+
+#base de datos
+conection_sql
+_pycache_
+__pycache__/conection_mysql.cpython-313.pyc
+
 __pycache__/usuarios.cpython-313.pyc
 __pycache__/gastos.cpython-313.pyc
-__pycache__/ingresos.cpython-313.pyc
 __pycache__/dashboard.cpython-313.pyc
-__pycache__/conection_mysql.cpython-313.pyc
+__pycache__/ingresos.cpython-313.pyc
+connection_mysql.py
+
