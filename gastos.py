@@ -59,7 +59,7 @@ def add_gasto():
 
 
 @app.route("/api/delete/<int:GastosId>", methods=["DELETE"])
-def delete_gasto(id):
+def delete_gasto(GastosId):
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
@@ -72,7 +72,7 @@ def delete_gasto(id):
 
 
 @app.route("/api/update/<int:GastosId>", methods=["PUT"])
-def update_gasto(id):
+def update_gasto(GastosId):
     try:
         data = request.get_json()
         with conectar() as connection:
@@ -98,28 +98,88 @@ def update_gasto(id):
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/api/gasto/<int:GastosId>", methods=["GET"])
-def get_gasto_id(id):
+@app.route("/api/gastos/cedula/<int:cedula>", methods=["GET"])
+def get_gastos_by_cedula(cedula):
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
-                sql = "SELECT * FROM gastos WHERE GastosId = %s"
-                cursor.execute(sql, (id,))
+                sql = """
+                SELECT g.GastosId, g.Fecha, g.Concepto, g.Monto, g.Metodo_pago, 
+                       g.Cuenta_retiro, g.Descripcion, u.Cedula 
+                FROM gastos g
+                JOIN usuarios u ON g.UserId = u.UsuarioId
+                WHERE u.Cedula = %s
+                """
+                cursor.execute(sql, (cedula,))
+                gastos = cursor.fetchall()
+
+                if not gastos:
+                    return (
+                        jsonify(
+                            {"message": "No hay gastos registrados para esta cédula"}
+                        ),
+                        404,
+                    )
+
+                gastos_list = [
+                    {
+                        "GastosId": g["GastosId"],
+                        "Fecha": str(g["Fecha"]),
+                        "Concepto": g["Concepto"],
+                        "Monto": g["Monto"],
+                        "Metodo_pago": g["Metodo_pago"],
+                        "Cuenta_retiro": g["Cuenta_retiro"],
+                        "Descripcion": g["Descripcion"],
+                        "Cedula": g["Cedula"],
+                    }
+                    for g in gastos
+                ]
+
+                return jsonify(gastos_list)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route("/api/gastos/cedula/<int:cedula>/gasto/<int:gasto_id>", methods=["DELETE"])
+def delete_specific_gasto_by_cedula(cedula, gasto_id):
+    try:
+        with conectar() as connection:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    "SELECT UsuarioId FROM usuarios WHERE Cedula = %s", (cedula,)
+                )
+                usuario = cursor.fetchone()
+
+                if not usuario:
+                    return (
+                        jsonify({"message": "No existe un usuario con esta cédula"}),
+                        404,
+                    )
+
+                usuario_id = usuario["UsuarioId"]
+                cursor.execute(
+                    "SELECT * FROM gastos WHERE GastosId = %s AND UserId = %s",
+                    (gasto_id, usuario_id),
+                )
                 gasto = cursor.fetchone()
 
-                if gasto:
-                    gasto_dict = {
-                        "GastosId": gasto["GastosId"],
-                        "fecha": str(gasto["fecha"]),
-                        "concepto": gasto["concepto"],
-                        "monto": gasto["monto"],
-                        "metodo_pago": gasto["metodo_pago"],
-                        "Cuenta_retiro": gasto["Cuenta_retiro"],
-                        "descripcion": gasto["descripcion"],
-                    }
-                    return jsonify(gasto_dict)
+                if not gasto:
+                    return (
+                        jsonify(
+                            {
+                                "message": "No se encontró un gasto con ese ID para esta cédula"
+                            }
+                        ),
+                        404,
+                    )
+                
+                cursor.execute("DELETE FROM gastos WHERE GastosId = %s", (gasto_id,))
+                connection.commit()
 
-                return jsonify({"error": "Gasto no encontrado"}), 404
+                return (
+                    jsonify({"message": "El gasto ha sido eliminado exitosamente"}),
+                    200,
+                )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
