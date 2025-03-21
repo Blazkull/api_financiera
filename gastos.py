@@ -58,7 +58,7 @@ def add_gasto():
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/api/delete/<int:id>", methods=["DELETE"])
+@app.route("/api/delete/<int:GastosId>", methods=["DELETE"])
 def delete_gasto(id):
     try:
         with conectar() as connection:
@@ -71,7 +71,7 @@ def delete_gasto(id):
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/api/update/<int:id>", methods=["PUT"])
+@app.route("/api/update/<int:GastosId>", methods=["PUT"])
 def update_gasto(id):
     try:
         data = request.get_json()
@@ -98,8 +98,8 @@ def update_gasto(id):
         return jsonify({"error": str(e)}), 400
 
 
-@app.route("/api/gasto/<int:id>", methods=["GET"])
-def get_gasto(id):
+@app.route("/api/gasto/<int:GastosId>", methods=["GET"])
+def get_gasto_id(id):
     try:
         with conectar() as connection:
             with connection.cursor() as cursor:
