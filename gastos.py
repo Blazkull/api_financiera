@@ -89,7 +89,6 @@ def update_gasto(GastosId):
                         data["metodo_pago"],
                         data["Cuenta_retiro"],
                         data["descripcion"],
-                        ,
                     ),
                 )
             connection.commit()
