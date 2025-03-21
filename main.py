@@ -52,7 +52,7 @@ def crete_insert():
 def update_insert__of_user(IngresosId):
      return ingresos.update_insert__of_user(IngresosId)
 
-@app.route('/api/delete/ngresos/<int:ingreso_id>', methods=['DELETE'])
+@app.route('/api/delete/ingresos/<int:ingreso_id>', methods=['DELETE'])
 def delete_insert_of_user(IngresosId):
      return ingresos.delete_insert_of_user(IngresosId)
 
