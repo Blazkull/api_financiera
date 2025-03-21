@@ -1,12 +1,9 @@
 # API Financiera
+
 [![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Framework-green.svg)](https://fastapi.tiangolo.com/)
-[![PyMySQL](https://img.shields.io/badge/PyMySQL-Database-blueviolet.svg)](https://pymysql.readthedocs.io/en/latest/)
-[![Postman](https://img.shields.io/badge/Postman-API%20Client-orange.svg)](https://www.postman.com/)
 [![Warp](https://img.shields.io/badge/Warp-Terminal-black.svg)](https://warp.dev/)
 [![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-IDE-blue.svg)](https://code.visualstudio.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
+[![Postman](https://img.shields.io/badge/Postman-API%20Client-orange.svg)](https://www.postman.com/)
 
 Esta es una API REST diseñada para gestionar información financiera de manera eficiente, cubriendo usuarios, ingresos, gastos y proporcionando un panel de control analítico.
 
@@ -49,9 +46,9 @@ Si deseas probar localmente, debes crear una base de datos con los parámetros q
 2. Crear un entorno virtual (recomendado):
 
    ```bash
-   python -m venv venv
-   source venv/bin/activate # Para macOS y Linux
-   venv\Scripts\activate # Para Windows
+   python -m venv .\local
+   source local/bin/activate # Para macOS y Linux
+   local\Scripts\activate # Para Windows
    ```
 
 3. Instalar las dependencias:
@@ -63,6 +60,8 @@ Si deseas probar localmente, debes crear una base de datos con los parámetros q
 ## Configuración
 
 La API utiliza MySQL Workbench como base de datos. Para configurarla, modifica la URL de conexión en `database.py`.
+
+Si deseas probar localmente, debes crear una base de datos con los parámetros indicados en el archivo [`bd.txt`](https://github.com/Blazkull/api_financiera/blob/main/bd.txt), que contiene la configuración necesaria para establecer la conexión.
 
 ## Ejecución
 
