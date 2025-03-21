@@ -63,6 +63,7 @@ def update_gasto(GastosId):
                 sql = """UPDATE gastos 
                          SET fecha=%s, concepto=%s, monto=%s, metodo_pago=%s, Cuenta_retiro=%s, descripcion=%s 
                          WHERE GastosId=%s"""
+
                 cursor.execute(sql, (
                     data["fecha"],
                     data["concepto"],
@@ -72,6 +73,19 @@ def update_gasto(GastosId):
                     data["descripcion"],
                     GastosId
                 ))
+
+                cursor.execute(
+                    sql,
+                    (
+                        data["fecha"],
+                        data["concepto"],
+                        data["monto"],
+                        data["metodo_pago"],
+                        data["Cuenta_retiro"],
+                        data["descripcion"],
+                    ),
+                )
+
             connection.commit()
         return jsonify({"message": "Gasto actualizado correctamente"}), 200
     except Exception as e:
